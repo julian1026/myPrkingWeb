@@ -1,0 +1,31 @@
+.imagenDasboard {
+    width: 160px;
+    height: 160px;
+    background-color: white;
+    border-radius: 50px;
+    object-fit: contain;
+    margin-top: 0%;
+}
+
+.buttomSuccess {
+    background-color: #008B8B;
+    color: #FFFAFA;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+a.page-link {
+    color: white !important;
+    background-color: #2F4F4F !important;
+    font-weight: bold !important;
+}
+
+
+td.dtr-control.sorting_1::before {
+    background-color: #008B8B !important;
+}
+
+button.swal2-confirm.swal2-styled {
+    background-color: #008B8B !important;
+}

@@ -1,0 +1,22 @@
+{
+    "path-intellisense.showHiddenFiles": true,
+    "editor.suggest.showStatusBar": true,
+    "problems.showCurrentInStatus": true,
+    "eslint.alwaysShowStatus": true,
+    "editor.linkedEditing": true,
+    "editor.suggest.shareSuggestSelections": true,
+    "workbench.editor.untitled.hint": "button",
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.restore": false,
+    "zenMode.silentNotifications": false,
+    "zenMode.hideTabs": false,
+    "search.showLineNumbers": true,
+    "search.seedOnFocus": true,
+    "search.seedWithNearestWord": true,
+    "search.smartCase": true,
+    "debug.showInStatusBar": "always",
+    "debug.showSubSessionsInToolBar": true,
+    "scm.providerCountBadge": "visible",
+    "zenMode.hideActivityBar": false
+}
