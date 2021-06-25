@@ -1,41 +1,95 @@
 var db = firebase.firestore();
 
+
+//function that upload images to storage of firebase
+async function uploadImages() {
+    let ref = firebase.storage().ref();
+    let imagenes = document.getElementById('file-image').files;
+    let nombre = '';
+    let tamano = imagenes.length;
+    let metadata = null;
+    let tasks = null;
+    let arrayImages = [];
+
+    if (tamano == 0) {
+        return Swal.fire("Mensaje de Advertencia", "como minimo seleccione una imagen", "warning")
+    } if (tamano > 3) {
+        return Swal.fire("Mensaje de Advertencia", "como Maximo 4 Imagenes", "warning");
+    }
+    else {
+        for (let i = 0; i < tamano; i++) {
+            nombre = new Date() + '-' + imagenes[i].name;
+            metadata = {
+                contentType: imagenes[i].type
+            }
+            tasks = ref.child('parkingImage/' + nombre).put(imagenes[i], metadata);
+
+            await tasks
+                .then((snapshot) => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    arrayImages[i] = url;
+                }).catch(error => console.log(error))
+        }
+    }
+
+    return arrayImages;
+}
+
+
 function registrar() {
 
     let nombre = document.getElementById('txt_nombre').value;
     let longitud = parseFloat(document.getElementById('txt_longitud').value);
     let latitud = parseFloat(document.getElementById('txt_latitud').value);
-    if (!latitud || !longitud || !nombre) {
-        return Swal.fire("mensaje de avertencia", "llene los campos vacios", "warning");
+    let direccion = document.getElementById('txt_direccion').value;
+    let descripcion = document.getElementById('txt_descripcion').value;
+
+
+    if (nombre.trim().length == 0 || !longitud || !latitud || direccion.trim().length == 0 || descripcion.trim().length == 0) {
+        return Swal.fire("Mensaje de Advertencia", "todos los campos son necesarios.", "warning");
     }
-    db.collection('parqueaderos').doc().set({
-        nombre: nombre,
-        'locacion': {
-            'latitude': latitud,
-            'longitude': longitud,
-            'latitudeDelta': 0.001,
-            'longitudeDelta': 0.001
-        },
-        'descripcion': null,
-        'direccion': null,
-        'imagenes': [],
-        'quantityVoting': 0,
-        'rating': 0,
-        'ratingTotal': 0,
-        estado: true,
-        'createAt': new Date(),
-        'createBy': null
+
+    uploadImages().then((imagesURL) => {
+
+        if (Array.isArray(imagesURL)) {//verifico que images sea un arreglo
+
+            db.collection('parqueaderos').doc().set({
+                nombre: nombre,
+                'locacion': {
+                    'latitude': latitud,
+                    'longitude': longitud,
+                    'latitudeDelta': 0.001,
+                    'longitudeDelta': 0.001
+                },
+                'descripcion': descripcion,
+                'direccion': direccion,
+                'imagenes': imagesURL,
+                'quantityVoting': 0,
+                'rating': 0,
+                'ratingTotal': 0,
+                'estado': true,
+                'createAt': new Date(),
+                'createBy': null
+            })
+            Swal.fire("Mensaje de Confirmacion", "Registro Exitoso", "success");
+            limpiar();
+            queryParking();
+        }
     })
-    limpiar();
-    queryParking();
-    Swal.fire("Mensaje de Confirmacion", "Registro Exitoso", "success");
+
 }
+
+
 
 
 function limpiar() {
     document.getElementById('txt_nombre').value = '';
     document.getElementById('txt_longitud').value = '';
     document.getElementById('txt_latitud').value = '';
+    document.getElementById('txt_direccion').value = '';
+    document.getElementById('txt_descripcion').value = '';
+    document.getElementById('file-image').value = '';
+
 }
 
 

@@ -169,17 +169,19 @@
 
 
 
-  <script>
-    cargar_contenido('contenido_principal', '../view/formRegister.php');
-  </script>
 
   <!-- firebase -->
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
   <script src="../js/api.js"> </script>
 
   <!-- cierre firebase -->
+  <script>
+    cargar_contenido('contenido_principal', '../view/formRegister.php');
+  </script>
 
 
 

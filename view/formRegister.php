@@ -6,7 +6,7 @@
 
 <div class="col-md-12 mt-4">
   <div class="card text-white " style="background-color: #2F4F4F;">
-    <div class="card-header" style="font-weight: bold; ">Registrar Parqueadero</div>
+    <div class="card-header" style="font-weight: bold; ">Formulario de Registrar Parqueadero</div>
     <div class="card-body" id="r">
       <form id="registro" autocomplete="false" onsubmit="return false">
         <div class="row">
@@ -25,10 +25,27 @@
           </div>
 
           <div class="col-md-3 mt-2">
-            <!-- <label for=""class="mt-3"></label><br /> -->
-            <!-- <input type="button" class="btn btn-success  btn-block" value="Registrar"> -->
+            <!-- <label for="">Longitud</label> -->
+            <input type="text" class="form-control" id="txt_direccion" placeholder="ingresar direccion" />
+          </div>
+          <div class="col-md-3 mt-2">
+            <!-- <label for="">Longitud</label> -->
+            <textarea name="des" id="txt_descripcion" cols="30" class="form-control" rows="1"></textarea>
+          </div>
+          <div class="col-md-3 mt-2">
+            <label for="files" class="btn btn-block buttomSuccess">
+              <span class="material-icons float-left mr-2">
+                file_upload
+              </span>
+              Seleccionar Imagenes</label>
+            <input type="file" accept="image/png,image/jpeg" id="files" style="visibility:hidden;" name="foe" multiple>
+          </div>
+
+
+
+          <div class="col-md-3 mt-2">
             <button class="btn  btn-block buttomSuccess" onclick="registrar()">
-              <span class="material-icons float-left mr-2">add_circle_outline</span>registrar</button>
+              <span class="material-icons float-left mr-2">add_circle_outline</span>Registrar Parqueadero</button>
 
           </div>
         </div>
@@ -111,7 +128,7 @@
     $("#txt_tablaparqueaderos").DataTable({
       responsive: true,
       dom: "Bfrtip",
-      buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"],
+      buttons: [],
     });
   });
 </script>
