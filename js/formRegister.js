@@ -1,9 +1,13 @@
-var db = firebase.firestore();
 
+auth.onAuthStateChanged((user) => {
+    if (!user) {
+        window.location.replace('../login');
+    }
+})
 
 //function that upload images to storage of firebase
 async function uploadImages() {
-    let ref = firebase.storage().ref();
+
     let imagenes = document.getElementById('file-image').files;
     let nombre = '';
     let tamano = imagenes.length;
@@ -131,8 +135,8 @@ function listParking(datos1) {
         // processing: true,
         bDestroy: true,
         bAutoWidth: false,
-        "lengthMenu": [[4, 12, 24, 48, -1], [4, 12, 24, 48, "All"]],
-        "pageLength": 4,
+        "lengthMenu": [[3, 12, 24, 48, -1], [3, 12, 24, 48, "All"]],
+        "pageLength": 3,
         "destroy": true,
         "async": false,
         "processing": true,
@@ -157,20 +161,22 @@ function listParking(datos1) {
         data: datos1,
         columns: [
             { data: 'nombre' }, { data: 'locacion.latitude' }, { data: 'locacion.longitude' }, { data: 'direccion' }, { data: 'descripcion' },
-            { data: 'ratingTotal' },
-            // {
-            //     data: 'estado', render: function (data) {
-            //         if (data == true) {
-            //             return "<div><span class='material-icons bg-success'>check</span> activo</div>";
-            //         } else {
-            //             return "<div><span class='material-icons bg-danger'>cancel</span> inactivo</div>";
-            //         }
-            //     }
-            // },
+            {
+                data: 'estado', render: function (data) {
+                    if (data == true) {
+                        return "<div><span class='material-icons bg-success'>check</span> activo</div>";
+                    } else {
+                        return "<div><span class='material-icons bg-danger'>cancel</span> inactivo</div>";
+                    }
+                }
+            },
             {
                 defaultContent:
-                    "<button  type='button' class='estado btn-sm  ' style='background-color:#008B8B; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #008B8B;'  ><span class='material-icons'>check</span></button>&nbsp;" +
-                    "<button  type='button' class='editar btn-sm' style='background-color:#2F4F4F; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>create</span></button>&nbsp;"
+                    "<button   class='estado' style='background-color:#008B8B; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #008B8B;'  ><span class='material-icons'>check</span></button>&nbsp;"
+                    +
+                    "<button   class='editar' style='background-color:#2F4F4F; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>create</span></button>&nbsp;"
+                    +
+                    "<button class='image' style='background-color:; color:#2F4F4F; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>collections</span></button>&nbsp;"
             },
         ],
 
@@ -178,6 +184,7 @@ function listParking(datos1) {
 }
 
 
+//activar o desactivar parqueadero
 $('#txt_tablaparqueaderos').on('click', '.estado', function () {
     var data = tabla.row($(this).parents('tr')).data();
     // console.log(data);
@@ -188,7 +195,7 @@ $('#txt_tablaparqueaderos').on('click', '.estado', function () {
     identificador = data.id;
     estado = !data.estado;
     if (estado) {
-        title = "Esta seguro de activar el parqueadero?"
+        title = "activar  parqueadero?"
         text = "Una vez hecho esto el parqueadero aparecera en el mapa"
     } else {
         title = "Esta seguro de desactivar el parqueadero?"
@@ -215,7 +222,7 @@ $('#txt_tablaparqueaderos').on('click', '.estado', function () {
 })
 
 
-
+// update data of parkings
 $('#txt_tablaparqueaderos').on('click', '.editar', function () {
     var data = tabla.row($(this).parents('tr')).data();
     // console.log(data);
@@ -228,23 +235,59 @@ $('#txt_tablaparqueaderos').on('click', '.editar', function () {
 
     identificador = data.id;
     $("#txt_update_nombre").val(data.nombre);
-    $("#txt_update_latitud").val(data.locacion.longitude);
-    $("#txt_update_longitud").val(data.locacion.latitude);
+    $("#txt_update_latitud").val(data.locacion.latitude);
+    $("#txt_update_longitud").val(data.locacion.longitude);
+    $("#txt_update_direccion").val(data.direccion);
+    $("#txt_update_descripcion").val(data.descripcion);
+})
 
 
 
+// carrusel image
+$('#txt_tablaparqueaderos').on('click', '.image', function () {
+    var data = tabla.row($(this).parents('tr')).data();
+    // console.log(data);
+    if (tabla.row(this).child.isShown()) {
+        var data = tabla.row(this).data();
+    }
+    console.log(data);
+    $("#modalupdateCarrusel").modal({ backdrop: 'static', keyboard: false });
+    $("#modalupdateCarrusel").modal('show');
+
+    identificador = data.id;
+    cargarCarrusel(data.imagenes);
 
 })
+
+function cargarCarrusel(imageArray) {
+    let carrusel = document.querySelector('#carrusel');
+    let other = ["carousel-item active", "carousel-item", "carousel-item", "carousel-item"]
+    let alt = ["First slide", "Second slide", "Third slide", "Fourth slide"]
+
+    let aux = '';
+    imageArray.map((imageURL, index) => {
+        aux += `
+        <div class= "${other[index]}" >
+              <img class="d-block w-100" src=${imageURL} alt="${alt[index]}" >
+            </div>
+        `
+    })
+    carrusel.innerHTML = aux;
+}
+
 
 
 function updateParking() {
     nombre = $("#txt_update_nombre").val();
-    longitud = $("#txt_update_latitud").val();
-    latitud = $("#txt_update_longitud").val();
+    longitud = $("#txt_update_longitud").val();
+    latitud = $("#txt_update_latitud").val();
+    direccion = $("#txt_update_direccion").val();
+    descripcion = $("#txt_update_descripcion").val();
 
-    if (!nombre || !longitud || !latitud) {
-        return Swal.fire("Mensaje de Advertencia", "No puede ir campos vacios", "warning");
+    if (nombre.trim().length == 0 || !longitud || !latitud || direccion.trim().length == 0 || descripcion.trim().length == 0) {
+        return Swal.fire("Mensaje de Advertencia", "todos los campos son necesarios.", "warning");
     }
+
     var objecto1 = {
         'nombre': nombre,
         'locacion': {
@@ -252,7 +295,9 @@ function updateParking() {
             'longitude': parseFloat(longitud),
             'latitudeDelta': 0.001,
             'longitudeDelta': 0.001
-        }
+        },
+        'direccion': direccion,
+        'descripcion': descripcion
     }
     updateStatus(identificador, objecto1);
 }
@@ -260,9 +305,9 @@ function updateParking() {
 
 
 
-var updateStatus = (async (id, estado) => {
+var updateStatus = (async (id, objeto) => {
     await db.collection('parqueaderos')
-        .doc(id).update(estado)
+        .doc(id).update(objeto)
         .then(() => {
             queryParking();
             $("#modalupdateparqueadero").modal('hide');
@@ -275,6 +320,20 @@ var updateStatus = (async (id, estado) => {
 
 })
 
+
+// cerrar Sesion
+
+var cerrarsession = document.querySelector('#cerrar-session');
+
+cerrarsession.addEventListener('click', e => {
+    e.preventDefault();
+
+
+
+    auth.signOut().then(() => {
+        console.log('sign out')
+    })
+})
 
 
 
