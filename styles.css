@@ -7,6 +7,10 @@
     margin-top: 0%;
 }
 
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .buttomSuccess {
     background-color: #008B8B;
     color: #FFFAFA;
@@ -19,6 +23,7 @@ a.page-link {
     color: white !important;
     background-color: #2F4F4F !important;
     font-weight: bold !important;
+    text-decoration: none;
 }
 
 

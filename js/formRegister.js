@@ -172,11 +172,11 @@ function listParking(datos1) {
             },
             {
                 defaultContent:
-                    "<button   class='estado' style='background-color:#008B8B; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #008B8B;'  ><span class='material-icons'>check</span></button>&nbsp;"
+                    "<button class='estado' data-toggle='tooltip' data-placement='left' title='estado' style='background-color:#008B8B; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #008B8B;'  ><span class='material-icons'>check</span></button>&nbsp;"
                     +
-                    "<button   class='editar' style='background-color:#2F4F4F; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>create</span></button>&nbsp;"
+                    "<button   class='editar' data-toggle='tooltip' data-placement='left' title='Registrar' style='background-color:#2F4F4F; color:#FFFAFA; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>create</span></button>&nbsp;"
                     +
-                    "<button class='image' style='background-color:; color:#2F4F4F; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>collections</span></button>&nbsp;"
+                    "<button class='image' data-toggle='tooltip' data-placement='left' title='imagenes' style='background-color:; color:#2F4F4F; font-weight: bold; font-size:5px; border-radius: 50%; border: 5px solid #2F4F4F;' ><span class='material-icons'>collections</span></button>&nbsp;"
             },
         ],
 
@@ -268,7 +268,7 @@ function cargarCarrusel(imageArray) {
     imageArray.map((imageURL, index) => {
         aux += `
         <div class= "${other[index]}" >
-              <img class="d-block w-100" src=${imageURL} alt="${alt[index]}" >
+              <img class="d-block w-100" style="width:100px; height: 300px;" src=${imageURL} alt="${alt[index]}" >
             </div>
         `
     })

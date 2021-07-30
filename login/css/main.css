@@ -182,8 +182,10 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  /* background-image: url('../../assets/img/loginFondo.jpg'); */
+  background-image: url('../../assets/image/47847.svg');
+  background-size:50em auto, 100% 100%;
   background-color: #dae1d8
+
 }
 
 
